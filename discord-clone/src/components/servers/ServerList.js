@@ -1,4 +1,8 @@
 import React, { useState } from 'react'
+import { useRecoilState } from 'recoil'
+import ServerListState from '../../state/ServerListState.js'
+import CurrentElementState from '../../state/CurrentElementState.js'
+
 import styled from 'styled-components'
 import color from '../../colors/colors.js'
 import Server from './Server.js'
@@ -23,43 +27,18 @@ const Container = styled.section`
 
 function ServerList() {
 
-  let user = {
-    userId: '',
-    userName: 'Simon'
-  }
-
-  let message = {
-    userId: '',
-    userName: 'Simon',
-    date: '8/5/2022',
-    message: 'yo, I\'m such a gamer aaaaa aaaa aaa aaaaaa aaaa aaaaa aaaa aaa aaaaaa aaaa aaaaa aaaa aaa aaaaaa aaaa aaaaa aaaa aaa aaaaaa aaaa aaaaa aaaa aaa aaaaaa aaaa aaaaa aaaa aaa aaaaaa aaaa aaaaa aaaa aaa aaaaaa aaaa aaaaa aaaa aaa aaaaaa aaaa aaaaa aaaa aaa aaaaaa aaaa'
-  }
-
-  let channel = {
-    messages: [message]
-  }
-
-  let temp = {
-    name: 'serber',
-    users: [user],
-    channels: [channel],
-  }
-
-  let a = []
-
-  for (let i = 0; i < 35; i++) {
-    a.push(temp)
-  }
-
-  const [servers, setServers] = useState(a)
+  const [serversState, setServersState] = useRecoilState(ServerListState)
+  const [indexes, setIndexes] = useRecoilState(CurrentElementState)
 
   return (
     <Container>
         {
-          servers.map((server, index) => {
+          serversState.map((server, index) => {
+            
+            let selected = server.name === serversState.name
 
             return (
-              <Server key={index} serverObj={server}></Server>
+              <Server key={index} index={index} serverObj={server}></Server>
             )
           })
         }

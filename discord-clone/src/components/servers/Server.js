@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import color from '../../colors/colors.js'
+import { useRecoilState } from 'recoil'
+import CurrentElementState from '../../state/CurrentElementState.js'
 
 const Container = styled.div`
   display: flex;
@@ -37,7 +39,7 @@ const Name = styled.h1`
   font-size: 15px;
   position: absolute;
   height: 40px;
-  left: 5rem;
+  left: 4.5rem;
   background-color: ${color.backgroundTertiary};
   display: ${props => props.show};
 `
@@ -47,12 +49,12 @@ const NameTriangle = styled.div`
   height: 10px;
   transform: rotate(45deg);
   position: absolute;
-  left: 5.2rem;
+  left: 4.7rem;
   display: ${props => props.show};
   background-color: ${color.backgroundTertiary};
 `
 
-function Server({ serverObj }) {
+function Server({ serverObj, index }) {
 
   function mouseEnter() {
     setShowName(true)
@@ -62,11 +64,20 @@ function Server({ serverObj }) {
     setShowName(false)
   }
 
+  
   const [showName, setShowName] = useState(false)
+  const [indexes, setIndexes] = useRecoilState(CurrentElementState)
+
+  function onClick() {
+    let newIndexes = JSON.parse(JSON.stringify(indexes))
+    newIndexes.serverIndex = index
+
+    setIndexes(newIndexes)
+  }
 
   return (
     <Container onMouseEnter={mouseEnter} onMouseLeave={mouseLeave}>
-      <Icon></Icon>
+      <Icon onClick={onClick}></Icon>
       <NameTriangle show={showName ? 'block' : 'none'}></NameTriangle>
       <Name show={showName ? 'block' : 'none'}>{serverObj.name}</Name>
     </Container>

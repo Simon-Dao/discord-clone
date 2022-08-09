@@ -1,15 +1,19 @@
 import React from 'react'
 import styled from 'styled-components'
-import color from '../../colors/colors.js'
+import color, { backgroundPrimary } from '../../colors/colors.js'
 import TextChannel from './TextChannel'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import { solid, regular, brands } from '@fortawesome/fontawesome-svg-core/import.macro' // <-- import styles to be used
 
 const Container = styled.section`
+    border-radius: 10px 0 0 0;
     width: 17rem;
     max-width: 17rem;
-    height: 5rem;
-    background-color: #292b2f;
+    height: 4rem;
+    background-color: ${color.backgroundSecondary};
+    position: relative;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px;
+    z-index: 2000;
     display: flex;
     align-items: flex-end;
     padding: 1rem;
@@ -54,23 +58,12 @@ const FontContainer = styled.div`
     }
 `
 
-function OptionMenu() {
+function Header() {
     return (
         <Container>
-            <A>
-                <Icon></Icon>
-                <Name>simon</Name>
-
-                <FontContainer style={{padding:'10px 10px 10px 10px'}}>
-                    <FontAwesomeIcon icon={solid('microphone')} />
-                </FontContainer>
-
-                <FontContainer style={{padding:'10px 10px 10px 10px'}}>
-                    <FontAwesomeIcon icon={solid('headphones')} />
-                </FontContainer>
-            </A>
+            TopNav
         </Container>
     )
 }
 
-export default OptionMenu
+export default Header

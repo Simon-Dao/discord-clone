@@ -2,7 +2,10 @@ import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import color from '../../colors/colors.js'
 import Message from './Message.js'
-import SearchBar from './SearchBar.js'
+import TextInput from './TextInput'
+import { useRecoilState } from 'recoil'
+import ServerListState from '../../state/ServerListState.js'
+import CurrentElementState from '../../state/CurrentElementState.js'
 
 //please fix this css it is so fucked on so many levels
 
@@ -21,7 +24,7 @@ const MessageContainer = styled.div`
     flex-direction: column;
     flex-grow: 1;
     box-sizing: border-box;
-    padding: 2rem;
+    padding: 0 2rem;
     overflow-y: scroll;
     height: 300px;
     margin-right: 0.5rem;
@@ -38,33 +41,22 @@ const MessageContainer = styled.div`
 
 function TextArea() {
 
-    let temp = {
-        userId: '',
-        userName: 'Simon',
-        date: '8/5/2022',
-        message: 'yo, I\'m such a gamer aaaaa aaaa aaa aaaaaa aaaa aaaaa aaaa aaa aaaaaa aaaa aaaaa aaaa aaa aaaaaa aaaa aaaaa aaaa aaa aaaaaa aaaa aaaaa aaaa aaa aaaaaa aaaa aaaaa aaaa aaa aaaaaa aaaa aaaaa aaaa aaa aaaaaa aaaa aaaaa aaaa aaa aaaaaa aaaa aaaaa aaaa aaa aaaaaa aaaa'
-    }
-
-    let a = []
-
-    for(let i = 0; i < 50; i++) {
-        a.push(temp)
-    }
-    const [messages, setMessages] = useState(a)
+    const [serversState, setServersState] = useRecoilState(ServerListState)
+    const [indexes, setIndexes] = useRecoilState(CurrentElementState)
 
     const lastMessage = useRef(null)
 
     useEffect(() => {
-        lastMessage.current.scrollIntoView();
-    },[])
+        lastMessage.current.scrollIntoView();//{behavior:'smooth'});
+    },[indexes, serversState])
 
     return (
         <Container>
-            <SearchBar></SearchBar>
+            <TextInput></TextInput>
 
             <MessageContainer>
                 {
-                    messages.map((message, index) => {   
+                    serversState[indexes.serverIndex].channels[indexes.channelIndex].messages.map((message, index) => {   
                         return (
                             <Message key={index} message={message}></Message>
                         )

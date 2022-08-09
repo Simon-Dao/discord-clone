@@ -1,18 +1,21 @@
 import React, { useState } from 'react'
+import { useRecoilState } from 'recoil'
 import styled from 'styled-components'
 import color from '../../colors/colors.js'
 import TextChannel from './TextChannel'
 import OptionMenu from './OptionMenu.js'
+import Header from './Header.js'
+import ServerListState from '../../state/ServerListState.js'
+import CurrentElementState from '../../state/CurrentElementState.js'
 
 const Container = styled.section`
     display: flex;
     flex-direction: column;
     width: 17rem;
     min-width: 17rem;
-    height: calc(100vh - 2rem);
+    height: calc(100vh - 10rem);
     background-color: ${color.backgroundSecondary};
     overflow-y: scroll;
-    border-radius: 10px 0 0 0;
     box-sizing: border-box;
     &::-webkit-scrollbar-thumb {
       background-color: ${color.backgroundTertiary};
@@ -39,25 +42,26 @@ function ChannelList() {
     messages: [message]
   }
 
-  let temp = []
-
-  for (let i = 0; i < 30; i++) {
-    temp.push(channel)
-  }
-
-  const [channels, setChannels] = useState(temp)
+  const [serversState, setServersState] = useRecoilState(ServerListState)
+  const [indexes, setIndexes] = useRecoilState(CurrentElementState)
 
   return (
+    <section>
+      <Header></Header>
       <Container>
         {
-          channels.map((channel, index) => {
+          serversState[indexes.serverIndex].channels.map((channel, index) => {
+            let selected = index === indexes.channelIndex
+
             return (
-              <TextChannel key={index} channelObj={channel}></TextChannel>
+              <TextChannel selected={selected} index={index} key={index} channelObj={channel}></TextChannel>
             )
           })
         }
-        <OptionMenu></OptionMenu>
       </Container>
+        <OptionMenu></OptionMenu>
+    </section>
+      
 
   )
 }

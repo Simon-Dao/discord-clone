@@ -3,15 +3,21 @@ import styled from 'styled-components'
 import color from '../../colors/colors.js'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import { solid, regular, brands } from '@fortawesome/fontawesome-svg-core/import.macro' // <-- import styles to be used
+import ServerListState from '../../state/ServerListState.js'
+import { useRecoilState } from 'recoil'
+import CurrentElementState from '../../state/CurrentElementState.js'
 
 const Container = styled.div`
   display: flex;
   align-items: center;
   overflow: visible;
   padding: 10px 20px;
+  cursor: pointer;
+  background-color: ${props => props.selected ? color.backgroundQuaterniary: color.backgroundSecondary};
+  border-radius: ${props => props.selected ? '0.5rem' : '0px'};
   &:hover {
       border-radius: 0.5rem;
-      background-color: ${color.backgroundQuaterniary};
+      background-color: ${props => props.selected ? color.backgroundQuaterniary : color.backgroundPrimary};
     }
 `
 
@@ -34,11 +40,23 @@ const Name = styled.h1`
   display: ${props => props.show};
 `
 
-function TextChannel({channelObj}) {
+function TextChannel({channelObj, selected, index}) {
+  
+  const [serversState, setServersState] = useRecoilState(ServerListState)
+  const [indexes, setIndexes] = useRecoilState(CurrentElementState)
+
+  function onClick() {
+
+    let newIndexes = JSON.parse(JSON.stringify(indexes))
+    newIndexes.channelIndex = index
+
+    setIndexes(newIndexes)
+  }
+
   return (
-    <Container>
+    <Container onClick={onClick} selected={selected}>
       <FontAwesomeIcon icon={solid('hashtag')} />
-      <Name>adasdsa</Name>
+      <Name>{channelObj.name}</Name>
     </Container>
   )
 }

@@ -1,15 +1,17 @@
 import React from 'react'
 import styled from 'styled-components'
 import color from '../../colors/colors.js'
-import SearchBar from './SearchBar.js'
+import SearchBar from './TextInput'
+import ServerListState from '../../state/ServerListState.js'
 
 const Container = styled.div`
-    flex-grow: 1;
     box-sizing: border-box;
-    padding-right: 3rem;
+    padding: 1rem;
+    &:hover {
+      background-color: ${color.backgroundSecondary};
+      border-radius: 1rem;
+    }
 `
-
-
 
 const Vert = styled.div`
 `
@@ -22,17 +24,16 @@ const Horiz = styled.div`
 const InfoText = styled.h1`
   color: ${color.blue};
   margin-right: 30px;
-  margin-top: 3rem;
 `
 
 const MessageText =styled.p`
   font-size: 1.3rem;
   padding: 0;
-  margin: .2rem;
 `
 
 
 function Message({ message }) {
+
   return (
     <Container>
       <Horiz>

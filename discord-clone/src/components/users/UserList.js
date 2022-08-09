@@ -2,6 +2,9 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import color from '../../colors/colors.js'
 import User from './User.js'
+import { useRecoilState } from 'recoil'
+import ServerListState from '../../state/ServerListState.js'
+import CurrentElementState from '../../state/CurrentElementState.js'
 
 const Container = styled.section`
     display: flex;
@@ -9,7 +12,7 @@ const Container = styled.section`
     width: 17rem;
     min-width: 17rem;
     max-width: 17rem;
-    height: calc(100vh - 6rem);
+    height: calc(100vh - 5rem);
     background-color: ${color.backgroundSecondary};
     overflow-y: scroll;
     scrollbar-color: ${color.backgroundTertiary};
@@ -30,23 +33,13 @@ const Container = styled.section`
 
 function UserList() {
 
-  let temp = {
-    userId: '',
-    userName: 'Simon'
-  }
-
-  let a = []
-
-  for (let i = 0; i < 35; i++) {
-    a.push(temp)
-  }
-
-  const [users, setUsers] = useState(a)
+  const [serversState, setServersState] = useRecoilState(ServerListState)
+  const [indexes, setIndexes] = useRecoilState(CurrentElementState)
 
   return (
     <Container>
       {
-        users.map((user, index) => {
+        serversState[indexes.serverIndex].users.map((user, index) => {
           return (
             <User key={index} userObj={user}></User>
           )

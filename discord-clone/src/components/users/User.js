@@ -10,7 +10,7 @@ box-sizing: border-box;
   align-items: center;
   overflow: visible;
   padding-left: .8rem;
-
+  cursor: pointer;
   &:hover {
       border-radius: 0.5rem;
       background-color: ${color.backgroundQuaterniary};
